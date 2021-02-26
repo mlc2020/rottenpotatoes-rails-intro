@@ -7,6 +7,9 @@ class MoviesController < ApplicationController
   end
 
   def index
+    
+    @all_ratings = Movie.all_ratings
+    
     returning_session = false
     
     if params[:sort]
@@ -16,17 +19,25 @@ class MoviesController < ApplicationController
       returning_session = true
     end
     
+    if params[:ratings]
+      @sorting = params[:ratings]
+    elsif session[:ratings]
+      @sorting = session[:ratings]
+      returning_session = true
+    end
+    
     if returning_session
-      redirect_to movies_path(:sort => @sorting)
+      redirect_to movies_path(:sort => @sorting, :ratings => @ratings)
     end
     
-    Movie.all.each do |movie|
-      (@movies ||= []) << movie
+    Movie.find(:all, :order => @sorting ? @sorting : :id).each do |ind_movie|
+      if @ratings.keys.include?(ind_movie[:rating])
+          @movies << ind_movie
+      end
     end
-    
-    @movies.order(@sorting)
     
     session[:sort] = @sorting
+    session[:ratings] = @ratings
     
   end
   
