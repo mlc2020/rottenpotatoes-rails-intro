@@ -20,9 +20,11 @@ class MoviesController < ApplicationController
       redirect_to movies_path(:sort => @sorting)
     end
     
-    Movie.find(:all, :order => @sorting ? @sorting : :id).each do |movie|
+    Movie.find(:all).each do |movie|
       (@movies ||= []) << movie
     end
+    
+    @movies.order(@sorting)
     
     session[:sort] = @sorting
     
