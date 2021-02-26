@@ -6,9 +6,9 @@
 <table class="table table-striped col-md-12" id="movies">
   <thead>
     <tr>
-      <th>Movie Title</th>
+      <a id="title_header">Movie Title, <%= movie_path(:sort=> 'title')%> </a>
       <th>Rating</th>
-      <th>Release Date</th>
+      <a id="release_date_header">Release Date, <%= movie_path(:sort=> 'release_date')%></a>
       <th>More Info</th>
     </tr>
   </thead>
