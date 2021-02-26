@@ -7,8 +7,25 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @all_ratings = Movie.order(:rating).select(:rating).map(&:rating).uniq
-    @movies = Movie.order(params[:sort])
+    returning_session = false
+    
+    if params[:sort]
+      @sorting = params[:sort]
+    elsif session[:sort]
+      @sorting = session[:sort]
+      first_session = true
+    end
+    
+    if first_session
+      redirect_to movies_path(:sort=>@sorting)
+    end
+    
+    Movie.find(:all, :order=>@sorting ? @sorting : :id).each do |movie|
+      (@movies ||= []) << movie
+    end
+    
+    session[:sort] = @sorting
+    
   end
   
   def new
