@@ -13,10 +13,10 @@ class MoviesController < ApplicationController
       @sorting = params[:sort]
     elsif session[:sort]
       @sorting = session[:sort]
-      first_session = true
+      returning_session = true
     end
     
-    if first_session
+    if returning_session
       redirect_to movies_path(:sort=>@sorting)
     end
     
