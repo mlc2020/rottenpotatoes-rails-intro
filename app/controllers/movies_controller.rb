@@ -17,10 +17,10 @@ class MoviesController < ApplicationController
     end
     
     if returning_session
-      redirect_to movies_path(:sort=>@sorting)
+      redirect_to movies_path(:sort => @sorting)
     end
     
-    Movie.find(:all, :order=>@sorting ? @sorting : :id).each do |movie|
+    Movie.find(:all, :order => @sorting ? @sorting : :id).each do |movie|
       (@movies ||= []) << movie
     end
     
